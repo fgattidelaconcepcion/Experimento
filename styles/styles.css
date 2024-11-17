@@ -1,0 +1,74 @@
+
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #f8f9fa;
+    background-image: url(../images/imagendeFondo.avif);
+    background-size: cover;  /* Hace que la imagen cubra todo el fondo */
+    background-position: center center;  /* Centra la imagen en el fondo */
+    background-attachment: fixed;  /* Hace que la imagen no se mueva al hacer scroll */
+    text-align: center;
+}
+
+/* Estilo para el header */
+header {
+    margin-bottom: 30px;
+}
+
+.logo {
+    max-width: 200px;
+    margin-bottom: 10px;
+    border: 2px solid red; /* Esto es solo para depuración */
+    border-radius: 50%;
+}
+
+/* Estilo para el título */
+.principal {
+    font-size: 2rem;
+}
+
+/* Contenedor de las cards */
+.card-container {
+    display: flex;
+    justify-content: center; /* Centra las cards */
+    gap: 20px; /* Espacio entre las cards */
+    flex-wrap: wrap; /* Permite que las cards se acomoden en varias filas */
+    margin-bottom: 30px;
+}
+
+/* Estilo para las cards */
+.card {
+    width: 18rem;  /* Fija el tamaño de la card */
+    overflow: hidden; /* Oculta cualquier contenido que sobresalga del contenedor */
+}
+
+/* Asegura que las imágenes tengan el mismo tamaño */
+.card img {
+    width: 100%;  /* Hace que la imagen ocupe todo el ancho de la card */
+    height: 200px;  /* Establece una altura fija para todas las imágenes */
+    object-fit: cover;  /* Hace que la imagen se recorte o escale para llenar el área sin distorsionarse */
+}
+
+/* Cuando las cards están en la fila de abajo */
+.card-container.bottom {
+    gap: 40px; /* Espacio mayor entre las cards de la fila inferior */
+}
+
+/* Asegurar que todas las cards estén centradas */
+.card-container .card {
+    margin: 10px;
+}
+
+/* Asegurar que la imagen de la card de Red Dead Redemption se centre de manera correcta */
+.card img.red-dead {
+    object-fit: contain;  /* Permite que la imagen se ajuste sin recortar, respetando la relación de aspecto */
+    height: 200px;  /* Asegura que la altura sea la misma */
+    width: auto; /* Ajusta el ancho de la imagen */
+    display: block; /* Asegura que la imagen no tenga márgenes o paddings extraños */
+    margin-left: auto;  /* Centra la imagen horizontalmente */
+    margin-right: auto;
+}
