@@ -43,7 +43,7 @@ function saveCart(cart) {
     localStorage.setItem('cart', JSON.stringify(cart)); // Guardo el carrito como un string JSON
 }
 
-// Función para actualizar la vista del carrito en el HTML
+// Función para actualizar la vista del carrito en el HTML con descuento aplicado
 function updateCart() {
     const cart = getCart(); // Obtengo el carrito actual
     const cartItems = document.getElementById('cart-items'); // Selecciono el contenedor donde mostrar los items
@@ -52,19 +52,31 @@ function updateCart() {
     cartItems.innerHTML = ''; // Limpio el contenido del carrito en la vista
 
     let total = 0; // Inicializo el total en 0
-    cart.forEach(item => {
+    const discountRate = 0.10; // Descuento del 10%
+
+    // Usamos .map() para aplicar el descuento a cada producto y obtener el nuevo carrito
+    const cartWithDiscount = cart.map(item => {
+        const discountedPrice = (parseFloat(item.price) * (1 - discountRate)).toFixed(2); // Aplico el descuento
+        return {
+            ...item, // Mantenemos todos los datos del item original
+            price: discountedPrice // Actualizo el precio con el descuento
+        };
+    });
+
+    // Ahora actualizamos el carrito con los precios con descuento
+    cartWithDiscount.forEach(item => {
         const li = document.createElement('li'); // Creo un nuevo item de lista
         li.textContent = `${item.name} - $${item.price}`; // Asigno el nombre y precio del item
-        
+
         // Creo el botón para eliminar el producto
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = "Eliminar"; // Botón que dirá "Eliminar"
         deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm', 'ms-2'); // Le añado clases para estilo
         deleteBtn.addEventListener('click', () => removeFromCart(item.id)); // Al hacer click, elimina el item
-        
+
         li.appendChild(deleteBtn); // Añado el botón al li
         cartItems.appendChild(li); // Añado el li al contenedor de items
-        total += parseFloat(item.price); // Acumulo el precio total
+        total += parseFloat(item.price); // Acumulo el precio total con el descuento aplicado
     });
 
     totalPrice.textContent = total.toFixed(2); // Muestro el precio total con dos decimales
@@ -113,7 +125,7 @@ function checkout() {
         alert('Error en la conexión con el servidor'); // Aviso al usuario que hubo un error
     });
 
-    // Aquí vamos a simular también un `fetch` para enviar la compra a un servidor
+    // Aquí vamos a simular también un fetch para enviar la compra a un servidor
     fetch('https://jsonplaceholder.typicode.com/posts', {  // URL de ejemplo para simular el envío de la compra
         method: 'POST',
         headers: {
