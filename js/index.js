@@ -1,27 +1,26 @@
 // Clase Juego que representa un producto
 class Juego {
-    // Constructor que recibe id y nombre, y genera un precio aleatorio
+    // Constructor que recibe id y nombre, y asigna un precio fijo
     constructor(id, name) {
         this.id = id;
         this.name = name;
-        this.price = this.getRandomPrice(); // Asigno un precio aleatorio al juego
-    }
-
-    // Método para generar un precio aleatorio entre $29.99 y $99.99
-    getRandomPrice() {
-        return (Math.random() * (99 - 29) + 29).toFixed(2); // Devuelvo el precio con 2 decimales
+        this.price = 49.99; // Asigno un precio fijo de $49.99 (puedes ajustarlo según sea necesario)
     }
 
     // Método para agregar el juego al carrito
-    addToCart() {
-        const cart = getCart(); // Obtengo el carrito actual del localStorage
+    addToCart(button) {
+        const cart = getCart(); // Obtengo el carrito actual desde el localStorage
         cart.push({ // Agrego el juego al carrito
             id: this.id,
             name: this.name,
             price: this.price
         });
-        saveCart(cart); // Guardo el carrito actualizado
+        saveCart(cart); // Guardo el carrito actualizado en el localStorage
         updateCart(); // Actualizo la vista del carrito
+
+        // Cambiar el estado del botón para indicar que el juego fue agregado
+        button.disabled = true; // Deshabilitar el botón para evitar múltiples clics
+        button.textContent = "Agregado al carrito"; // Cambiar el texto del botón
     }
 
     // Método estático para crear un objeto Juego a partir de un elemento HTML (card)
@@ -160,7 +159,7 @@ function assignRandomPrices() {
 function handleAddToCart(event) {
     const card = event.target.closest('.card'); // Obtengo la card del juego donde se hizo clic
     const juego = Juego.fromElement(card); // Creo una instancia del juego a partir de esa card
-    juego.addToCart(); // Agrego el juego al carrito
+    juego.addToCart(event.target); // Paso el botón al método addToCart para cambiar su estado
 }
 
 // Asegurándome de que los botones "Agregar al carrito" estén correctamente vinculados
@@ -170,9 +169,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', handleAddToCart);
     });
 
-    // Inicializo la vista del carrito y los precios aleatorios
+    // Inicializo la vista del carrito
     updateCart();
-    assignRandomPrices();
 });
 
 // Evento para el botón de "Confirmar compra"

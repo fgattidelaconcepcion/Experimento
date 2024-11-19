@@ -72,3 +72,6 @@ header {
     margin-left: auto;  /* Centra la imagen horizontalmente */
     margin-right: auto;
 }
+.btn-success {
+    margin:2rem;
+}
