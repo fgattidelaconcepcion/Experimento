@@ -87,7 +87,16 @@ function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId); // Filtro el carrito para eliminar el item con el id dado
     saveCart(cart); // Guardo el carrito actualizado
     updateCart(); // Actualizo la vista del carrito
+
+    // Vuelvo a habilitar el botón "Agregar al carrito" en la card correspondiente
+    const card = document.querySelector(`[data-id="${productId}"]`); // Busco la card por el id del producto
+    if (card) {
+        const button = card.querySelector('.add-to-cart'); // Obtengo el botón de agregar al carrito
+        button.disabled = false; // Habilito el botón
+        button.textContent = "Agregar al carrito"; // Resto el texto original al botón
+    }
 }
+
 
 // Función para confirmar la compra con una llamada simulada a un servidor
 function checkout() {
