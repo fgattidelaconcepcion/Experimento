@@ -7,9 +7,9 @@ body {
     align-items: center;
     background-color: #f8f9fa;
     background-image: url(../images/imagendeFondo.avif);
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
+    background-size: cover;  /* Hace que la imagen cubra todo el fondo */
+    background-position: center center;  /* Centra la imagen en el fondo */
+    background-attachment: fixed;  /* Hace que la imagen no se mueva al hacer scroll */
     text-align: center;
 }
 
@@ -21,7 +21,7 @@ header {
 .logo {
     max-width: 200px;
     margin-bottom: 10px;
-    border: 2px solid red;
+    border: 2px solid red; /* Esto es solo para depuración */
     border-radius: 50%;
 }
 
@@ -33,35 +33,28 @@ header {
 /* Contenedor de las cards */
 .card-container {
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+    justify-content: center; /* Centra las cards */
+    gap: 20px; /* Espacio entre las cards */
+    flex-wrap: wrap; /* Permite que las cards se acomoden en varias filas */
     margin-bottom: 30px;
 }
 
-/* Asegura que las imágenes tengan el mismo tamaño */
+/* Estilo para las cards */
 .card {
-    width: 18rem;  /* Tamaño fijo de la card */
-    height: 300px;  /* Asegura que las cards tengan un tamaño adecuado */
-    overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega sombra para mejorar el estilo */
-    transition: transform 0.3s ease; /* Agrega transición para efecto hover */
+    width: 18rem;  /* Fija el tamaño de la card */
+    overflow: hidden; /* Oculta cualquier contenido que sobresalga del contenedor */
 }
 
-.card:hover {
-    transform: scale(1.05); /* Efecto de hover para las cards */
-}
-
+/* Asegura que las imágenes tengan el mismo tamaño */
 .card img {
-    width: 100%; /* Hace que la imagen ocupe todo el ancho de la card */
-    height: 200px; /* Establece la altura fija para las imágenes */
-    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+    width: 100%;  /* Hace que la imagen ocupe todo el ancho de la card */
+    height: 200px;  /* Establece una altura fija para todas las imágenes */
+    object-fit: cover;  /* Hace que la imagen se recorte o escale para llenar el área sin distorsionarse */
 }
 
 /* Cuando las cards están en la fila de abajo */
 .card-container.bottom {
-    gap: 40px;
+    gap: 40px; /* Espacio mayor entre las cards de la fila inferior */
 }
 
 /* Asegurar que todas las cards estén centradas */
@@ -71,14 +64,13 @@ header {
 
 /* Asegurar que la imagen de la card de Red Dead Redemption se centre de manera correcta */
 .card img.red-dead {
-    object-fit: contain;
-    height: 200px;
-    width: auto;
-    display: block;
-    margin-left: auto;
+    object-fit: contain;  /* Permite que la imagen se ajuste sin recortar, respetando la relación de aspecto */
+    height: 200px;  /* Asegura que la altura sea la misma */
+    width: auto; /* Ajusta el ancho de la imagen */
+    display: block; /* Asegura que la imagen no tenga márgenes o paddings extraños */
+    margin-left: auto;  /* Centra la imagen horizontalmente */
     margin-right: auto;
 }
-
 .btn-success {
-    margin: 2rem;
+    margin:2rem;
 }

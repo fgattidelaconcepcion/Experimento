@@ -1,0 +1,23 @@
+[
+    {
+      "id": "1",
+      "name": "Counter Strike 2",
+      "price": "49.99"
+    },
+    {
+      "id": "2",
+      "name": "Black ops 6",
+      "price": "59.99"
+    },
+    {
+      "id": "3",
+      "name": "Red Dead Redemption",
+      "price": "39.99"
+    },
+    {
+        "id": "4",
+        "name": "Battlefield 2042",
+        "price": "41.99"
+      }
+  ]
+  
