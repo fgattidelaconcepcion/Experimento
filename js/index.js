@@ -1,186 +1,176 @@
 // Clase Juego que representa un producto
 class Juego {
-    // Constructor que recibe id y nombre, y asigna un precio fijo
-    constructor(id, name) {
+    constructor(id, name, price = 49.99) {
         this.id = id;
         this.name = name;
-        this.price = 49.99; // Asigno un precio fijo de $49.99 (puedes ajustarlo según sea necesario)
+        this.price = price;
     }
 
     // Método para agregar el juego al carrito
     addToCart(button) {
-        const cart = getCart(); // Obtengo el carrito actual desde el localStorage
-        cart.push({ // Agrego el juego al carrito
+        const cart = getCart();
+        cart.push({
             id: this.id,
             name: this.name,
             price: this.price
         });
-        saveCart(cart); // Guardo el carrito actualizado en el localStorage
-        updateCart(); // Actualizo la vista del carrito
-
-        // Cambiar el estado del botón para indicar que el juego fue agregado
-        button.disabled = true; // Deshabilitar el botón para evitar múltiples clics
-        button.textContent = "Agregado al carrito"; // Cambiar el texto del botón
+        saveCart(cart);
+        updateCart();
+        button.disabled = true;
+        button.textContent = "Agregado al carrito";
     }
 
-    // Método estático para crear un objeto Juego a partir de un elemento HTML (card)
     static fromElement(card) {
-        const id = card.dataset.id; // Obtengo el id del dataset de la card
-        const name = card.dataset.name; // Obtengo el nombre del dataset de la card
-        return new Juego(id, name); // Devuelvo una nueva instancia de Juego
+        const id = card.dataset.id;
+        const name = card.dataset.name;
+        const price = parseFloat(card.dataset.price);
+        return new Juego(id, name, price);
     }
 }
 
-// Función para obtener el carrito desde el localStorage
+// Función para cargar los productos (simulación de un archivo JSON)
+async function fetchProducts() {
+    // Simulando la carga de productos desde un archivo JSON
+    const products = [
+        { id: "1", name: "Battlefield 2042", price: 49.99 },
+        { id: "2", name: "Black Ops 6", price: 59.99 },
+        { id: "3", name: "Counter Strike 2", price: 39.99 },
+        { id: "4", name: "Red Dead Redemption", price: 59.99 }
+    ];
+
+    displayProducts(products);
+}
+
+// Función para mostrar los productos en el DOM
+function displayProducts(products) {
+    const productContainer = document.getElementById('product-container');
+    productContainer.innerHTML = ''; // Limpiamos el contenedor antes de agregar los nuevos productos
+
+    products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('card');
+        productCard.dataset.id = product.id;
+        productCard.dataset.name = product.name;
+        productCard.dataset.price = product.price;
+
+        productCard.innerHTML = `
+            <img src="images/${product.name.toLowerCase().replace(/\s/g, '')}.jpg" class="card-img-top" alt="${product.name}">
+            <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">Precio: $${product.price}</p>
+                <button class="add-to-cart btn btn-primary">Agregar al carrito</button>
+            </div>
+        `;
+
+        const addToCartButton = productCard.querySelector('.add-to-cart');
+        addToCartButton.addEventListener('click', (event) => handleAddToCart(event));
+
+        productContainer.appendChild(productCard);
+    });
+}
+
+// Función para manejar el evento de agregar al carrito
+function handleAddToCart(event) {
+    const card = event.target.closest('.card');
+    const juego = Juego.fromElement(card);
+    juego.addToCart(event.target);
+}
+
+// Función para obtener el carrito desde localStorage
 function getCart() {
-    const cart = localStorage.getItem('cart'); // Intento obtener el carrito del localStorage
-    return cart ? JSON.parse(cart) : []; // Si existe, lo devuelvo parseado; sino, devuelvo un array vacío
+    const cart = localStorage.getItem('cart');
+    return cart ? JSON.parse(cart) : [];
 }
 
 // Función para guardar el carrito en localStorage
 function saveCart(cart) {
-    localStorage.setItem('cart', JSON.stringify(cart)); // Guardo el carrito como un string JSON
+    localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Función para actualizar la vista del carrito en el HTML con descuento aplicado
+// Función para actualizar la vista del carrito
 function updateCart() {
-    const cart = getCart(); // Obtengo el carrito actual
-    const cartItems = document.getElementById('cart-items'); // Selecciono el contenedor donde mostrar los items
-    const totalPrice = document.getElementById('total-price'); // Selecciono el contenedor del total del carrito
+    const cart = getCart();
+    const cartItems = document.getElementById('cart-items');
+    const totalPrice = document.getElementById('total-price');
 
-    cartItems.innerHTML = ''; // Limpio el contenido del carrito en la vista
+    cartItems.innerHTML = '';
+    let total = 0;
 
-    let total = 0; // Inicializo el total en 0
-    const discountRate = 0.10; // Descuento del 10%
+    cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} - $${item.price}`;
 
-    // Usamos .map() para aplicar el descuento a cada producto y obtener el nuevo carrito
-    const cartWithDiscount = cart.map(item => {
-        const discountedPrice = (parseFloat(item.price) * (1 - discountRate)).toFixed(2); // Aplico el descuento
-        return {
-            ...item, // Mantenemos todos los datos del item original
-            price: discountedPrice // Actualizo el precio con el descuento
-        };
-    });
-
-    // Ahora actualizamos el carrito con los precios con descuento
-    cartWithDiscount.forEach(item => {
-        const li = document.createElement('li'); // Creo un nuevo item de lista
-        li.textContent = `${item.name} - $${item.price}`; // Asigno el nombre y precio del item
-
-        // Creo el botón para eliminar el producto
         const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = "Eliminar"; // Botón que dirá "Eliminar"
-        deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm', 'ms-2'); // Le añado clases para estilo
-        deleteBtn.addEventListener('click', () => removeFromCart(item.id)); // Al hacer click, elimina el item
+        deleteBtn.textContent = "Eliminar";
+        deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm', 'ms-2');
+        deleteBtn.addEventListener('click', () => removeFromCart(item.id));
 
-        li.appendChild(deleteBtn); // Añado el botón al li
-        cartItems.appendChild(li); // Añado el li al contenedor de items
-        total += parseFloat(item.price); // Acumulo el precio total con el descuento aplicado
+        li.appendChild(deleteBtn);
+        cartItems.appendChild(li);
+
+        total += parseFloat(item.price);
     });
 
-    totalPrice.textContent = total.toFixed(2); // Muestro el precio total con dos decimales
+    totalPrice.textContent = total.toFixed(2);
 }
 
 // Función para eliminar un producto del carrito
 function removeFromCart(productId) {
-    let cart = getCart(); // Obtengo el carrito actual
-    cart = cart.filter(item => item.id !== productId); // Filtro el carrito para eliminar el item con el id dado
-    saveCart(cart); // Guardo el carrito actualizado
-    updateCart(); // Actualizo la vista del carrito
+    let cart = getCart();
+    cart = cart.filter(item => item.id !== productId);
+    saveCart(cart);
+    updateCart();
 
-    // Vuelvo a habilitar el botón "Agregar al carrito" en la card correspondiente
-    const card = document.querySelector(`[data-id="${productId}"]`); // Busco la card por el id del producto
+    const card = document.querySelector(`[data-id="${productId}"]`);
     if (card) {
-        const button = card.querySelector('.add-to-cart'); // Obtengo el botón de agregar al carrito
-        button.disabled = false; // Habilito el botón
-        button.textContent = "Agregar al carrito"; // Resto el texto original al botón
+        const button = card.querySelector('.add-to-cart');
+        button.disabled = false;
+        button.textContent = "Agregar al carrito";
     }
 }
 
-
-// Función para confirmar la compra con una llamada simulada a un servidor
+// Función para manejar el checkout
 function checkout() {
-    const cart = getCart(); // Obtengo el carrito actual
-    if (cart.length === 0) { // Si el carrito está vacío, muestro un mensaje
+    const cart = getCart();
+    if (cart.length === 0) {
         alert('El carrito está vacío');
         return;
     }
 
-    // Creo los datos para enviar en la compra
-    const checkoutData = {
-        userId: 1,  // Simulo un id de usuario (esto sería un ID real en un sistema de autenticación)
-        cart: cart
-    };
+    const checkoutData = { userId: 1, cart: cart };
 
-    // Simulo una promesa que "procesa" la compra con un retraso de 2 segundos
     new Promise((resolve, reject) => {
         setTimeout(() => {
-            const success = Math.random() > 0.2; // Simulo un 80% de probabilidades de éxito
+            const success = Math.random() > 0.2;
             if (success) {
                 resolve('Compra realizada con éxito');
             } else {
                 reject('Hubo un error procesando la compra');
             }
-        }, 2000); // Espera 2 segundos para "procesar" la compra
+        }, 2000);
     })
-    .then(message => { // Si la compra es exitosa
-        alert(message); // Muestro el mensaje de éxito
-        localStorage.removeItem('cart'); // Limpio el carrito del localStorage
-        updateCart(); // Actualizo la vista del carrito
-    })
-    .catch(error => { // Si hubo un error
-        console.error(error); // Muestro el error en la consola
-        alert('Error en la conexión con el servidor'); // Aviso al usuario que hubo un error
-    });
-
-    // Aquí vamos a simular también un fetch para enviar la compra a un servidor
-    fetch('https://jsonplaceholder.typicode.com/posts', {  // URL de ejemplo para simular el envío de la compra
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'  // Aseguramos que el cuerpo de la solicitud sea JSON
-        },
-        body: JSON.stringify(checkoutData) // Convertimos el carrito a formato JSON
-    })
-    .then(response => response.json())  // Procesamos la respuesta del servidor
-    .then(data => {
-        console.log('Compra procesada:', data); // Mostramos la respuesta en la consola
-        alert('Compra realizada con éxito en el servidor');
-        localStorage.removeItem('cart'); // Limpiamos el carrito
-        updateCart(); // Actualizamos la vista
+    .then(message => {
+        alert(message);
+        localStorage.removeItem('cart');
+        updateCart();
     })
     .catch(error => {
-        console.error('Error en la compra:', error); // Mostramos el error si algo falla
-        alert('Error al procesar la compra en el servidor');
-    });
-}
-
-// Función para asignar precios aleatorios a los productos (cuando se cargan en la página)
-function assignRandomPrices() {
-    const priceElements = document.querySelectorAll('.price'); // Obtengo todos los elementos con clase 'price'
-    priceElements.forEach(element => {
-        const randomPrice = (Math.random() * (99 - 29) + 29).toFixed(2); // Genero un precio aleatorio entre $29.99 y $99.99
-        element.textContent = `$${randomPrice}`; // Muestra el precio generado en el elemento
-        element.closest('.card').dataset.price = randomPrice; // Asigno el precio al dataset de la card
-    });
-}
-
-// Manejo del evento de agregar al carrito cuando el usuario hace clic en el botón "Agregar al carrito"
-function handleAddToCart(event) {
-    const card = event.target.closest('.card'); // Obtengo la card del juego donde se hizo clic
-    const juego = Juego.fromElement(card); // Creo una instancia del juego a partir de esa card
-    juego.addToCart(event.target); // Paso el botón al método addToCart para cambiar su estado
-}
-
-// Asegurándome de que los botones "Agregar al carrito" estén correctamente vinculados
-document.addEventListener('DOMContentLoaded', function() {
-    // Agrego el evento de "Agregar al carrito" a cada botón
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', handleAddToCart);
+        console.error(error);
+        alert('Error en la conexión con el servidor');
     });
 
-    // Inicializo la vista del carrito
-    updateCart();
-});
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(checkoutData)
+    })
+    .then(response => response.json())
+    .then(data => console.log('Compra procesada:', data))
+    .catch(error => console.error('Error en el checkout:', error));
+}
 
-// Evento para el botón de "Confirmar compra"
-document.getElementById('checkout').addEventListener('click', checkout);
+// Evento de checkout
+document.getElementById('checkout-btn').addEventListener('click', checkout);
+
+// Cargar los productos cuando la página cargue
+window.addEventListener('DOMContentLoaded', fetchProducts);
