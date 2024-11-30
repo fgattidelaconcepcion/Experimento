@@ -1,9 +1,10 @@
 // Crear una clase Juego que representará cada juego
 class Juego {
-    constructor(id, name, price) {
+    constructor(id, name, price, image) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.image = image;  // Agregada la imagen como propiedad
     }
 
     // Método para agregar el juego al carrito
@@ -22,7 +23,7 @@ class Juego {
     }
 
     static fromJson(data) {
-        return new Juego(data.id, data.name, data.price);
+        return new Juego(data.id, data.name, data.price, data.image);  // Se pasa la imagen desde JSON
     }
 }
 
@@ -148,8 +149,9 @@ function createCard(juego) {
     card.classList.add('card');
     card.dataset.id = juego.id;
 
+    // Modificado para cargar la imagen directamente desde la propiedad 'image' del juego
     card.innerHTML = `
-        <img src="images/${juego.id}.jpg" class="card-img-top" alt="${juego.name}">
+        <img src="${juego.image}" class="card-img-top" alt="${juego.name}">
         <div class="card-body">
             <h5 class="card-title">${juego.name}</h5>
             <p class="card-text">Descripción del juego ${juego.name}...</p>
