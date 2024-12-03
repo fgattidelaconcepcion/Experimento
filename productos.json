@@ -3,24 +3,29 @@
     "id": "1",
     "name": "Counter Strike 2",
     "price": "49.99",
-    "image": "images/counterStrike2.jfif"
+    "image": "images/counterStrike2.jfif",
+    "description": "Counter-Strike 2 es un videojuego de disparos táctico en primera persona multijugador de 2023 desarrollado y publicado por Valve. Es la quinta entrega principal de la serie Counter-Strike."
   },
   {
     "id": "2",
     "name": "Black ops 6",
     "price": "59.99",
-    "image": "images/blackOps6.jpg"
+    "image": "images/blackOps6.jpg",
+   "description": "Call of Duty: Black Ops 6 (abreviado COD: BO6) es un videojuego de acción de disparos en primera persona desarrollado por Treyarch y Raven Software y publicado por Activision."
   },
   {
     "id": "3",
     "name": "Red Dead Redemption",
     "price": "39.99",
-    "image": "images/redDeadRedemption.jpg"
+    "image": "images/redDeadRedemption.jpg",
+   "description": "Red Dead Redemption es un videojuego de acción-aventura de mundo abierto no lineal desarrollado por Rockstar San Diego y publicado por Rockstar Games."
   },
   {
     "id": "4",
     "name": "Battlefield 2042",
     "price": "41.99",
-    "image": "images/battlefield.jpg"
+    "image": "images/battlefield.jpg",
+   "description": "Battlefield 2042 marca el regreso a la emblemática guerra total de la franquicia. Adáptate y sobrevive con la ayuda de tu patrulla y un arsenal de vanguardia en campos de batalla en constante cambio."
+   
   }
 ]
