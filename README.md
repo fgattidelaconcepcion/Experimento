@@ -1,44 +1,51 @@
-Carrito de compras de juegos.
-Este proyecto es una pequeña tienda en línea de juegos donde puedes agregar juegos a un carrito de compras, ver el total y confirmar la compra. Los precios de los juegos son generados de manera aleatoria dentro de un rango determinado, y todo el proceso se guarda en el almacenamiento local de tu navegador (localStorage).
+House of Shooters
+¡Bienvenidos a House of Shooters! Esta es una aplicación de compras en línea para videojuegos, que permite a los usuarios navegar por una selección de juegos, agregarlos a su carrito y realizar una compra simulada. El proyecto está hecho completamente en JavaScript, HTML y CSS, utilizando localStorage para almacenar los datos del carrito y los detalles de la compra.
 
-Funcionalidades
-Ver Juegos Disponibles:
-Cada juego tiene un precio asignado aleatoriamente entre $29.99 y $99.99. Puedes ver estos precios en la interfaz.
+Descripción del código:
+Este proyecto se compone principalmente de dos partes: la gestión del carrito de compras y la simulación del proceso de compra. Aquí te explico cómo funciona cada parte:
 
-Agregar al Carrito:
-Puedes agregar juegos al carrito haciendo clic en el botón "Agregar al carrito" de cada juego. Los juegos que agregues se guardan en el carrito, que se mantiene incluso si recargas la página (gracias al uso de localStorage).
+1. Gestión del carrito:
+Agregar productos al carrito: Cada juego tiene un botón de "Agregar al carrito" que, al hacer click, agrega el juego al carrito almacenado en el localStorage. Los productos se guardan como un arreglo de objetos con la información del juego (nombre, precio, etc.).
+Visualización del carrito: El carrito se muestra en tiempo real en la interfaz de usuario. Cuando se agrega o elimina un producto, se actualiza la vista del carrito con el nombre del juego, el precio con un descuento del 10% y un botón para eliminar el producto.
+Eliminar productos: Los usuarios pueden eliminar juegos del carrito, y el sistema actualiza el carrito en localStorage y la visualización de manera automática.
+2. Proceso de compra:
+Formulario de compra: Cuando el usuario decide realizar una compra, el sistema muestra un formulario para ingresar los datos del comprador (nombre, dirección, email y número de tarjeta).
+Validación de datos: Antes de procesar la compra, el sistema verifica que todos los campos del formulario estén completos. Si algún campo falta, muestra un mensaje de error.
+Simulación de compra exitosa: Cuando el formulario está completo, se simula el proceso de compra con una promesa que tiene un 80% de éxito y un 20% de posibilidad de error. Si la compra es exitosa, los datos se guardan en localStorage y el carrito se limpia.
+Simulación de solicitud al servidor: También simulo el envío de los datos de la compra a un servidor ficticio usando la API de jsonplaceholder. En caso de éxito, se muestra un mensaje confirmando la compra; en caso de error, se muestra un mensaje de error.
+3. Interacción con el localStorage:
+Los datos del carrito y los datos de la compra se guardan localmente usando localStorage, lo que permite que el carrito persista incluso si el usuario recarga la página o cierra el navegador.
+Los datos del carrito se recuperan y actualizan cada vez que se realiza una acción (agregar, eliminar productos o realizar una compra).
+4. Estructura de la aplicación:
+Clases y objetos: La aplicación utiliza una clase Juego que representa un producto (videojuego), con propiedades como id, name, price, image y description. Esta clase permite crear objetos de juegos y manipularlos de manera eficiente.
+Funciones clave:
+getCart() y saveCart(): Estas funciones se encargan de recuperar y guardar el carrito en el localStorage.
+updateCart(): Esta función actualiza la visualización del carrito en la interfaz de usuario.
+savePurchaseData(): Guarda los detalles de la compra en el localStorage.
+removeFromCart(): Elimina un producto del carrito y actualiza la vista.
+5. Carga de productos:
+Los productos se cargan desde un archivo JSON simulado (productos.json), lo que permite agregar nuevos juegos fácilmente sin necesidad de modificar el código. Cada juego tiene una imagen, descripción y precio que se muestran dinámicamente en la página.
+Características principales:
+Carrito de compras interactivo: Agrega productos al carrito y visualiza el precio total con un descuento del 10%.
+Formulario de compra: Ingresa tus datos (nombre, dirección, email y tarjeta) para completar la compra.
+Simulación de compra: El proceso de compra incluye una simulación con un 80% de éxito, enviando los datos al servidor.
+Almacenamiento local: Los productos en el carrito y los detalles de la compra se almacenan en localStorage para que no se pierdan entre recargas de la página.
 
-Ver Carrito:
-El carrito de compras se muestra con todos los juegos agregados y el precio total de los mismos. Además, cada juego tiene un botón para ser eliminado si cambias de opinión.
 
-Confirmar Compra:
-Al hacer clic en el botón "Confirmar compra", se simula una compra. Si todo va bien, se muestra un mensaje de éxito y se limpia el carrito. Si hay algún problema, se muestra un mensaje de error.
+Tecnologías utilizadas:
+HTML5 y CSS3: Para estructurar y estilizar la página.
+JavaScript: Para manejar la lógica de la aplicación, incluyendo la gestión del carrito, la carga de productos y el proceso de compra.
+Bootstrap: Para crear un diseño responsivo y adaptativo.
+LocalStorage: Para almacenar el carrito de compras y los datos de la compra.
+Estructura del proyecto
+index.html: Contiene la estructura principal de la tienda y el carrito.
+styles.css: Estilos personalizados para la aplicación.
+index.js: Lógica de la aplicación, manejo del carrito y la compra.
+productos.json: Archivo que contiene la información de los juegos (por ahora simulado como si fuera un archivo JSON, aunque los productos están codificados directamente en el script).
 
-Simulación de Comunicación con el Servidor:
-Al confirmar la compra, el carrito se envía a un servidor simulado utilizando fetch (en este caso, una URL de ejemplo de JSONPlaceholder). Este paso simula el proceso de hacer un pedido en línea.
-
-Cómo Funciona
-Creación de Juegos:
-Los juegos se crean con un ID y nombre, y se les asigna un precio aleatorio cuando se cargan en la página.
-
-Carrito:
-El carrito se guarda en el localStorage de tu navegador. Cada vez que agregas o eliminas un juego, el carrito se actualiza automáticamente y se muestra en la interfaz.
-
-Proceso de Compra:
-Al hacer clic en el botón "Confirmar compra", se simula un proceso de compra que tiene un 80% de probabilidades de ser exitoso. Si la compra es exitosa, el carrito se limpia; si hay un error, se muestra un mensaje de fallo.
-
-Envío a Servidor:
-La información del carrito se envía a un servidor simulado usando un fetch con un POST. Esto simula lo que sería una llamada real a una API de un sistema de compras en línea.
-
-Cómo Probar el Proyecto
-Clona el repositorio en tu computadora.
-Abre el archivo index.html en tu navegador.
-Juega con los botones "Agregar al carrito", "Eliminar" y "Confirmar compra".
-¿Cómo Funciona el Código?
-Juego: Es la clase que representa cada juego. Se encarga de generar precios aleatorios y de manejar la lógica para agregar y eliminar juegos del carrito.
-localStorage: Usamos localStorage para almacenar los juegos en el carrito, lo que nos permite mantener el carrito actualizado entre sesiones (incluso si recargas la página).
-fetch: Cuando confirmas la compra, el carrito se envía a un servidor simulado con fetch para procesar la compra.
-Tecnologías Usadas
-JavaScript (para la lógica de la tienda)
-HTML y CSS (para la estructura y el estilo de la página)
-localStorage (para almacenar el carrito de compras)
+Instrucciones de uso
+Abre la aplicación en tu navegador.
+Navega entre los juegos y agrega los que más te gusten al carrito.
+Al hacer clic en "Confirmar compra", ingresa tus datos y procesa la compra.
+Si todo va bien, recibirás una confirmación de compra exitosa.
+¡Gracias por usar House of Shooters! ¡Espero que disfrutes de la experiencia y encuentres los mejores juegos para tus horas de diversión!
