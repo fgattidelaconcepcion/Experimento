@@ -8,8 +8,12 @@ document.getElementById('checkout').addEventListener("click", () => {
     } else {
         // Si el carrito no está vacío, muestro el formulario para que el usuario ingrese sus datos.
         document.getElementById('checkout-form-container').style.display = 'block';
-    }
-});
+
+          // Mover la vista hacia el pie de la página donde está el formulario
+          const footer = document.querySelector('footer'); // Selecciona el pie de la página.
+          footer.scrollIntoView({ behavior: 'smooth' }); // Realiza un desplazamiento suave hasta el footer.
+      }
+    });
 
 // Lógica de envío del formulario de compra
 // Aquí gestiono lo que sucede cuando el usuario envía el formulario de compra con los datos del comprador.
@@ -118,7 +122,11 @@ class Juego {
 
         button.disabled = true; // Desactivo el botón después de agregar el juego al carrito.
         button.textContent = "Agregado al carrito"; // Cambio el texto del botón para indicar que ya fue agregado.
-    }
+     
+        // Mover la vista hacia el pie de la página
+        const footer = document.querySelector('footer');
+        footer.scrollIntoView({ behavior: 'smooth' }); // Realiza un desplazamiento suave hasta el footer.
+        }
 
     // Método estático para crear un objeto Juego desde un objeto JSON.
     static fromJson(data) {
@@ -209,6 +217,7 @@ function loadProducts() {
 function createCard(juego) {
     const card = document.createElement('div');
     card.classList.add('card');
+    card.setAttribute('data-id', juego.id); // Establezco el atributo data-id con el id del producto
 
     // Creación de la card con la descripción
     card.innerHTML = `
