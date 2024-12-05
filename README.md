@@ -1,4 +1,5 @@
 House of Shooters
+
 ¡Bienvenidos a House of Shooters! Esta es una aplicación de compras en línea para videojuegos, que permite a los usuarios navegar por una selección de juegos, agregarlos a su carrito y realizar una compra simulada. El proyecto está hecho completamente en JavaScript, HTML y CSS, utilizando localStorage para almacenar los datos del carrito y los detalles de la compra.
 
 Descripción del código:
